@@ -1,11 +1,14 @@
-package io.msiongoog.filefishing.config;
+package io.msiongoog.filefishing.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -20,39 +23,38 @@ import io.msiongoog.filefishing.services.UserDetailsServiceImpl;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	private static final String USER = "USER";
-	private static final String ADMIN = "ADMIN";
+	protected  static final String USER = "USER";
+	protected static final String ADMIN = "ADMIN";
+	
+	protected static final String BASIC_AUTH_REALM = "shyam_basic_auth";
 	
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;
+	
+	
+	@Bean
+	public AuthenticationManager customAuthenticationManager() throws Exception {
+		return authenticationManager();
+	}
 	
 	
 	@Autowired
 	protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		
 		//below code also works: v0.3
+		//only one works at a time. v0.3 - best, easy to incorporate DB when required
 		auth.userDetailsService(userDetailsService).passwordEncoder(bcryptPasswordEncoder());
 
 		//below code also works; v0.2
-		auth.userDetailsService(userDetailsService()).passwordEncoder(bcryptPasswordEncoder());
+	//	auth.userDetailsService(userDetailsService()).passwordEncoder(bcryptPasswordEncoder());
 		
 		//below code works; v0.1
-		auth.inMemoryAuthentication()
-		.withUser("shyam").password("$2a$10$4tXhsxtJ1E5SbfI5EnShuudMxYxPt8aOD7SweCbpopLLHindLwIdS").roles(USER).and()
-		.withUser("raman").password("$2a$10$4tXhsxtJ1E5SbfI5EnShuudMxYxPt8aOD7SweCbpopLLHindLwIdS").roles(ADMIN)
-		;
+//		auth.inMemoryAuthentication()
+//		.withUser("shyam").password("$2a$10$4tXhsxtJ1E5SbfI5EnShuudMxYxPt8aOD7SweCbpopLLHindLwIdS").roles(USER).and()
+//		.withUser("raman").password("$2a$10$4tXhsxtJ1E5SbfI5EnShuudMxYxPt8aOD7SweCbpopLLHindLwIdS").roles(ADMIN)
+//		;
 	}
 	
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests()
-		.antMatchers(HttpMethod.GET, "/protected/user/**").hasRole(USER)
-		.antMatchers(HttpMethod.GET,"/protected/admin/**").hasRole(ADMIN)
-		.and().httpBasic()
-		.and()
-		.sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-	}
 	
 	
 	@Bean
@@ -64,11 +66,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 
-  @Bean
+	@Bean
 	@Autowired
 	public BCryptPasswordEncoder bcryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
+	
 
+
+
+
+
+  
 
 }

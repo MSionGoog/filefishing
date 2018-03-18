@@ -19,7 +19,7 @@ public class UserRepository {
 
 		accounts = new HashMap<>();
 		Account accountUser = new Account();
-		accountUser.setUsername("shyam");
+		accountUser.setUsername("sooraj");
 		accountUser.setPassword("$2a$10$4tXhsxtJ1E5SbfI5EnShuudMxYxPt8aOD7SweCbpopLLHindLwIdS");
 		accountUser.setRoles(new HashSet<String>() {
 
@@ -31,7 +31,7 @@ public class UserRepository {
 		});
 		
 		Account accountAdmin = new Account();
-		accountAdmin.setUsername("raman");
+		accountAdmin.setUsername("arvind");
 		accountAdmin.setPassword("$2a$10$4tXhsxtJ1E5SbfI5EnShuudMxYxPt8aOD7SweCbpopLLHindLwIdS");
 		accountAdmin.setRoles(new HashSet<String>() {
 			

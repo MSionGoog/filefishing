@@ -7,7 +7,7 @@ public class PasswordUtils {
 
 	public static void runThis() {
 		
-		String passwordEncoded = new BCryptPasswordEncoder().encode("password");
+		String passwordEncoded = new BCryptPasswordEncoder().encode("oauth2password");
 		System.out.println(passwordEncoded);
 	}
 
