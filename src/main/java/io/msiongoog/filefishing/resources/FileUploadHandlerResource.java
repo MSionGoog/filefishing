@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -125,6 +126,20 @@ public class FileUploadHandlerResource {
 		HttpMessage httpMessage = new HttpMessage("file moved to new path : " + finalPath.toAbsolutePath());
 		
 		ResponseEntity<HttpMessage> response = new ResponseEntity<HttpMessage>(httpMessage, HttpStatus.OK);
+		
+		return response;
+	}
+	
+	
+	@DeleteMapping(path="/filedelete/{filename}")
+	public ResponseEntity<HttpMessage> deleteFile(@PathVariable("filename") String fileName) throws IOException {
+		
+		Path path = Paths.get(FILESTORAGE_LOCATION+"/"+fileName);
+		
+		Files.delete(path);
+		
+		HttpMessage httpMessage = new HttpMessage("file with name " + fileName + " deleted from " + FILESTORAGE_LOCATION);
+		ResponseEntity<HttpMessage> response = new ResponseEntity<HttpMessage>(httpMessage , HttpStatus.OK);
 		
 		return response;
 	}
