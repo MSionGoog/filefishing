@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import io.msiongoog.filefishing.services.UserDetailsServiceImpl;
+
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -21,16 +23,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String USER = "USER";
 	private static final String ADMIN = "ADMIN";
 	
+	@Autowired
+	UserDetailsServiceImpl userDetailsService;
+	
 	
 	@Autowired
 	protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		//below code also works;
+		
+		//below code also works: v0.3
+		auth.userDetailsService(userDetailsService).passwordEncoder(bcryptPasswordEncoder());
+
+		//below code also works; v0.2
 		auth.userDetailsService(userDetailsService()).passwordEncoder(bcryptPasswordEncoder());
-		//below code works;
-//		auth.inMemoryAuthentication()
-//		.withUser("shyam").password("$2a$10$4tXhsxtJ1E5SbfI5EnShuudMxYxPt8aOD7SweCbpopLLHindLwIdS").roles(USER).and()
-//		.withUser("raman").password("$2a$10$4tXhsxtJ1E5SbfI5EnShuudMxYxPt8aOD7SweCbpopLLHindLwIdS").roles(ADMIN)
-//		;
+		
+		//below code works; v0.1
+		auth.inMemoryAuthentication()
+		.withUser("shyam").password("$2a$10$4tXhsxtJ1E5SbfI5EnShuudMxYxPt8aOD7SweCbpopLLHindLwIdS").roles(USER).and()
+		.withUser("raman").password("$2a$10$4tXhsxtJ1E5SbfI5EnShuudMxYxPt8aOD7SweCbpopLLHindLwIdS").roles(ADMIN)
+		;
 	}
 	
 	@Override
@@ -48,8 +58,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public UserDetailsService userDetailsService() {
 		InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("shyam").password("$2a$10$4tXhsxtJ1E5SbfI5EnShuudMxYxPt8aOD7SweCbpopLLHindLwIdS").roles(USER).build());
-        manager.createUser(User.withUsername("raman").password("$2a$10$4tXhsxtJ1E5SbfI5EnShuudMxYxPt8aOD7SweCbpopLLHindLwIdS").roles(ADMIN).build());
+        manager.createUser(User.withUsername("ravi").password("$2a$10$4tXhsxtJ1E5SbfI5EnShuudMxYxPt8aOD7SweCbpopLLHindLwIdS").roles(USER).build());
+        manager.createUser(User.withUsername("shyama").password("$2a$10$4tXhsxtJ1E5SbfI5EnShuudMxYxPt8aOD7SweCbpopLLHindLwIdS").roles(ADMIN).build());
         return manager;
 	}
 
