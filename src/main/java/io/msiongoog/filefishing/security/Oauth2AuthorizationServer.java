@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import io.msiongoog.filefishing.services.UserDetailsServiceImpl;
 import io.msiongoog.filefishing.utils.PasswordUtils;
 
+
 @Order(SecurityProperties.BASIC_AUTH_ORDER-10)
 @Configuration
 @EnableAuthorizationServer

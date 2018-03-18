@@ -5,13 +5,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.Instant;
+import java.nio.file.StandardCopyOption;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import io.msiongoog.filefishing.domains.HttpMessage;
 import io.msiongoog.filefishing.security.Oauth2ResourceServer;
+
 
 @RestController
 @RequestMapping(path=Oauth2ResourceServer.BASICAUTHPROTECTED+"/files")
@@ -103,6 +103,27 @@ public class FileUploadHandlerResource {
 		String fileContentsAsString = new String(Files.readAllBytes(path));
 		
 		HttpMessage httpMessage = new HttpMessage(fileContentsAsString);
+		ResponseEntity<HttpMessage> response = new ResponseEntity<HttpMessage>(httpMessage, HttpStatus.OK);
+		
+		return response;
+	}
+	
+	
+	@GetMapping(path="/filemove/from/{filename}/to/{newfilename}")
+	public ResponseEntity<HttpMessage> renameFile(@PathVariable("filename") String fileName, @PathVariable("newfilename") String newFileName) throws IOException {
+		
+		Path pathfrom = Paths.get(FILESTORAGE_LOCATION+"/"+fileName);
+		Path pathTo = Paths.get(FILESTORAGE_LOCATION+"/"+newFileName);
+
+
+		Path finalPath = Files.move(pathfrom, pathTo, StandardCopyOption.REPLACE_EXISTING);
+		
+		if(finalPath == null) {
+			return new ResponseEntity<HttpMessage>(new HttpMessage("new file location does not exist"), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		HttpMessage httpMessage = new HttpMessage("file moved to new path : " + finalPath.toAbsolutePath());
+		
 		ResponseEntity<HttpMessage> response = new ResponseEntity<HttpMessage>(httpMessage, HttpStatus.OK);
 		
 		return response;
