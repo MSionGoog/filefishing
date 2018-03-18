@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 
 import io.msiongoog.filefishing.services.UserDetailsServiceImpl;
+import io.msiongoog.filefishing.utils.PasswordUtils;
 
 @Order(SecurityProperties.BASIC_AUTH_ORDER-10)
 @Configuration
@@ -37,12 +38,12 @@ public class Oauth2AuthorizationServer extends AuthorizationServerConfigurerAdap
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory().withClient("oauth2shyam").secret("$2a$10$Dyyr7.lEQe2S2Eb2rn1xVefHcLgzoK0m3N3JGkxB18SLXLKlI8DEC").accessTokenValiditySeconds(expiration)
+		clients.inMemory().withClient("oauth2shyam").secret(PasswordUtils.BCryptpassword("oauth2password")).accessTokenValiditySeconds(expiration)
 		.scopes("read","write").authorizedGrantTypes("client_credentials").resourceIds("oauth2-resource");
 		
-
+		
 	}
-
+ 
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 		security.realm(REALM);

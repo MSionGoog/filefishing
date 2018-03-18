@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.msiongoog.filefishing.domains.HttpMessage;
+import io.msiongoog.filefishing.security.Oauth2ResourceServer;
 
 @RestController
-@RequestMapping(path="/protected")
+@RequestMapping(path=Oauth2ResourceServer.BASICAUTHPROTECTED)
 public class InitResource {
 
 	private static final String PROTECTED_USER_SUCCESSFULLY_AUTHENTICATED = "/protected/user successfully authenticated";

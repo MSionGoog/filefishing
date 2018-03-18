@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import io.msiongoog.filefishing.services.UserDetailsServiceImpl;
+import io.msiongoog.filefishing.utils.PasswordUtils;
 
 @EnableWebSecurity
 @Configuration
@@ -25,6 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	protected  static final String USER = "USER";
 	protected static final String ADMIN = "ADMIN";
+	public static final String UPLOADER = "UPLOADER";
+
 	
 	protected static final String BASIC_AUTH_REALM = "shyam_basic_auth";
 	
@@ -60,8 +63,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public UserDetailsService userDetailsService() {
 		InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("ravi").password("$2a$10$4tXhsxtJ1E5SbfI5EnShuudMxYxPt8aOD7SweCbpopLLHindLwIdS").roles(USER).build());
-        manager.createUser(User.withUsername("shyama").password("$2a$10$4tXhsxtJ1E5SbfI5EnShuudMxYxPt8aOD7SweCbpopLLHindLwIdS").roles(ADMIN).build());
+        manager.createUser(User.withUsername("ravi").password(PasswordUtils.BCryptpassword("password")).roles(USER).build());
+        manager.createUser(User.withUsername("shyama").password(PasswordUtils.BCryptpassword("password")).roles(ADMIN).build());
         return manager;
 	}
 

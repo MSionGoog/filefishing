@@ -2,17 +2,17 @@ package io.msiongoog.filefishing.domains;
 
 public class HttpMessage {
 	
-	private String message;
+	private Object message;
 
-	public String getMessage() {
+	public Object getMessage() {
 		return message;
 	}
 
-	public void setMessage(String message) {
+	public void setMessage(Object message) {
 		this.message = message;
 	}
 
-	public HttpMessage(String message) {
+	public HttpMessage(Object message) {
 		super();
 		this.message = message;
 	}

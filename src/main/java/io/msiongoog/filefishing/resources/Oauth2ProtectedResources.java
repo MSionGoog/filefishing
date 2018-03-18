@@ -14,10 +14,12 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import io.msiongoog.filefishing.domains.HttpMessage;
+import io.msiongoog.filefishing.security.Oauth2ResourceServer;
 
 @RestController
-@RequestMapping(path="/oauth2protected")
+@RequestMapping(path=Oauth2ResourceServer.OAUTH2PROTECTED)
 public class Oauth2ProtectedResources {
+	
 	
 	private static final String apiUrl = "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress"
 			+ "?"

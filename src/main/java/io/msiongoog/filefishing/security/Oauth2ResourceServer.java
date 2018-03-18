@@ -14,6 +14,8 @@ import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHand
 @EnableResourceServer
 public class Oauth2ResourceServer extends ResourceServerConfigurerAdapter{
 
+	public static final String OAUTH2PROTECTED = "/oauth2protected";
+	public static final String BASICAUTHPROTECTED = "/protected";
 
 	@Autowired
 	BasicAuthenticationEntryPointImpl basicAuthenticationEntryPoint;
@@ -27,6 +29,8 @@ public class Oauth2ResourceServer extends ResourceServerConfigurerAdapter{
 		.exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
 		
 		http.csrf().disable().authorizeRequests()
+		.antMatchers(HttpMethod.GET, "/protected/files/**").hasRole(SecurityConfig.UPLOADER)
+		.antMatchers(HttpMethod.POST, "/protected/files/**").hasRole(SecurityConfig.UPLOADER)
 		.antMatchers(HttpMethod.GET, "/protected/user/**").hasRole(SecurityConfig.USER)
 		.antMatchers(HttpMethod.GET,"/protected/admin/**").hasRole(SecurityConfig.ADMIN)
 		.and().httpBasic().realmName(SecurityConfig.BASIC_AUTH_REALM)

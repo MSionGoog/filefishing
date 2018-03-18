@@ -1,5 +1,8 @@
 package io.msiongoog.filefishing.resources;
 
+import java.awt.datatransfer.MimeTypeParseException;
+import java.time.Instant;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +28,11 @@ public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler{
 		return new ResponseEntity<HttpMessage>(new HttpMessage(ex.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-	
-	
+	@ExceptionHandler(value=MimeTypeParseException.class)
+	protected ResponseEntity<HttpMessage> handleMimeTypeParseException(Exception ex, Object body, HttpHeaders headers,
+			HttpStatus status, WebRequest request) {
+		
+		
+		return new ResponseEntity<HttpMessage>(new HttpMessage(ex.getMessage()+"--"+Instant.now().toString()),HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 }

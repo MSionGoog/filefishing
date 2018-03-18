@@ -5,10 +5,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class PasswordUtils {
 	
 
-	public static void runThis() {
+	public static String BCryptpassword(String password) {
 		
-		String passwordEncoded = new BCryptPasswordEncoder().encode("oauth2password");
-		System.out.println(passwordEncoded);
+		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
+		return passwordEncoded;
 	}
 
 }

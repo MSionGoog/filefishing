@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import io.msiongoog.filefishing.domains.Account;
 import io.msiongoog.filefishing.exceptions.NoAccountFoundException;
+import io.msiongoog.filefishing.utils.PasswordUtils;
 
 
 @Repository
@@ -18,9 +19,10 @@ public class UserRepository {
 
 
 		accounts = new HashMap<>();
+		
 		Account accountUser = new Account();
 		accountUser.setUsername("sooraj");
-		accountUser.setPassword("$2a$10$4tXhsxtJ1E5SbfI5EnShuudMxYxPt8aOD7SweCbpopLLHindLwIdS");
+		accountUser.setPassword(PasswordUtils.BCryptpassword("password"));
 		accountUser.setRoles(new HashSet<String>() {
 
 			private static final long serialVersionUID = 1L;
@@ -32,7 +34,7 @@ public class UserRepository {
 		
 		Account accountAdmin = new Account();
 		accountAdmin.setUsername("arvind");
-		accountAdmin.setPassword("$2a$10$4tXhsxtJ1E5SbfI5EnShuudMxYxPt8aOD7SweCbpopLLHindLwIdS");
+		accountAdmin.setPassword(PasswordUtils.BCryptpassword("password"));
 		accountAdmin.setRoles(new HashSet<String>() {
 			
 			private static final long serialVersionUID = 6894494850559401611L;
@@ -43,8 +45,21 @@ public class UserRepository {
 			}
 		});
 		
+		Account accountUploader = new Account();
+		accountUser.setUsername("shyam");
+		accountUser.setPassword(PasswordUtils.BCryptpassword("password"));
+		accountUser.setRoles(new HashSet<String>() {
+
+			private static final long serialVersionUID = 1L;
+
+			{
+				add("ROLE_UPLOADER");
+			}
+		});
+		
 		accounts.put(accountAdmin.getUsername(), accountAdmin);
 		accounts.put(accountUser.getUsername(), accountUser);
+		accounts.put(accountUploader.getUsername(), accountUploader);
 	}
 	
 	 public Account findByUsername(String username) throws NoAccountFoundException  {
