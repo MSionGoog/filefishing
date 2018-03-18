@@ -57,3 +57,8 @@ type in the URL :
 14. select the token on the left
 15. click on use token on the right
 16. click on send and the response will appear if everything is setup as required.
+
+
+for all endpoints: 
+
+http://${hostname}:${port}/swagger-ui.html
