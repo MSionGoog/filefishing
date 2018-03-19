@@ -4,7 +4,7 @@
 	<groupId>io.msiongoog</groupId>
 	<artifactId>filefishing</artifactId>
 	<packaging>war</packaging>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.2-SNAPSHOT</version>
 	<name>filefishing.msiongoog.io</name>
 	<url>http://maven.apache.org</url>
 
@@ -21,6 +21,11 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -54,32 +59,40 @@
 			<version>2.7.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.dropbox.core</groupId>
+			<artifactId>dropbox-core-sdk</artifactId>
+			<version>3.0.6</version>
+		</dependency>
+
+	
+		
 	</dependencies>
 
 	<profiles>
-    <profile>
-     <id>openshift</id>
-     <build>
-		<finalName>filefishing</finalName>
-        <plugins>
-          <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <outputDirectory>target</outputDirectory>
-              		  <warName>${project.artifactId}-${project.version}</warName>
-                </configuration>
-            </plugin>
-            <plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
+		<profile>
+			<id>openshift</id>
+			<build>
+				<finalName>filefishing</finalName>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.3</version>
+						<configuration>
+							<failOnMissingWebXml>false</failOnMissingWebXml>
+							<outputDirectory>target</outputDirectory>
+							<warName>${project.artifactId}-${project.version}</warName>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 
 </project>

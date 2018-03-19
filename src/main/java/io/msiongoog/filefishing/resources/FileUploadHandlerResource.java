@@ -36,6 +36,8 @@ public class FileUploadHandlerResource {
 	private static final String FILESTORAGE_LOCATION = "/Users/shyam/apps/filestorage/";
 	Set<String> acceptedMimeTypes;
 	
+	
+	
 	{
 		acceptedMimeTypes = new HashSet<String>() {
 
@@ -143,6 +145,8 @@ public class FileUploadHandlerResource {
 		
 		return response;
 	}
+	
+	
 	
 	
 }
