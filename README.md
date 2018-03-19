@@ -28,6 +28,9 @@ curl -u arvind:password http://localhost:8080/protected/admin
 
 (C) is protected by oauth2 protocol
 
+There are a few more URLs but not relevant at the moment. Check end of README file for swagger link to rest of URLs
+
+
 oauth2 - client credentials grant type has been implemented.
 
 There are two steps to make an authorized request -
