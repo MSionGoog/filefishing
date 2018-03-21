@@ -1,11 +1,11 @@
 package io.msiongoog.filefishing.utils;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.dropbox.core.DbxApiException;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.util.StringUtil;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.ListFolderErrorException;
 import com.dropbox.core.v2.files.ListFolderResult;
@@ -30,6 +30,9 @@ public class DropBoxIntegrationUtils {
 		accessToken = HiddenConstants.dropboxAppAccesstoken;
 		apiKey = HiddenConstants.dropboxAppKey;
 		apiSecret = HiddenConstants.dropboxAppSecret;
+		
+		//to remove warning
+		StringUtil.base64Encode(new StringBuilder().append(apiKey.getBytes()).append(apiSecret.getBytes()).toString().getBytes());
 		
 	}
 	
