@@ -38,7 +38,7 @@ There are two steps to make an authorized request -
   second, make an authorized request using the access token
 
 clientID: oauth2shyam
-secret: oauth2password
+secret: **************
 
 sample request:
 use postman
