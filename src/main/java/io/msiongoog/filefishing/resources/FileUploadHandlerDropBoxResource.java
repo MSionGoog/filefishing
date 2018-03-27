@@ -1,44 +1,81 @@
 package io.msiongoog.filefishing.resources;
 
-
+import java.awt.datatransfer.MimeTypeParseException;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dropbox.core.DbxApiException;
 import com.dropbox.core.DbxException;
 
 import io.msiongoog.filefishing.domains.HttpMessage;
-import io.msiongoog.filefishing.security.Oauth2ResourceServer;
 import io.msiongoog.filefishing.utils.DropBoxIntegrationUtils;
 
 @RestController
-@RequestMapping(path=Oauth2ResourceServer.BASICAUTHPROTECTED+"/dropbox/files")
-public class FileUploadHandlerDropBoxResource {
-	
-	//http://localhost:8080/protected/dropbox/files/listuploadedfiles
+@RequestMapping(path = "/protected/dropbox/files")
+public class FileUploadHandlerDropBoxResource implements FileHandlerResource {
+
+	// http://localhost:8080/protected/dropbox/files/listuploadedfiles
 
 	// Enter, "Dropbox"
 	@Autowired
 	DropBoxIntegrationUtils dropBoxIntegrationUtils;
+
+
+
 	
-	@GetMapping(path="/listuploadedfiles")
-	public ResponseEntity<HttpMessage> listAllUploadedFilesinDropBox() throws IOException, DbxApiException, DbxException {
-		
+	@Override
+	public ResponseEntity<HttpMessage> handleFileUpload(MultipartFile uploadFile)
+			throws IOException, MimeTypeParseException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@GetMapping(path = "/listuploadedfiles")
+	@Override
+	public ResponseEntity<HttpMessage> listAllUploadedFiles() throws IOException {
+		HttpMessage message = new HttpMessage();
+
+		try {
+			dropBoxIntegrationUtils.dropBoxConnection();
+
+			message.setMessage(dropBoxIntegrationUtils.dropBoxFileListing());
+		} catch (DbxException e) {
+			e.printStackTrace();
+			message.setMessage(e.getMessage());
+			return new ResponseEntity<HttpMessage>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+
+		}
+		return new ResponseEntity<HttpMessage>(message, HttpStatus.OK);
+	}
+
+	@GetMapping(path="/filecontent/{filename}")
+	@Override
+	public ResponseEntity<HttpMessage> getFileContent(String fileName) throws IOException {
 		HttpMessage message = new HttpMessage();
 		
-		dropBoxIntegrationUtils.TestDropBoxConnection();
-		message.setMessage(dropBoxIntegrationUtils.TestDropBoxFileListing());
-		return new ResponseEntity<HttpMessage>(message,HttpStatus.OK);
+		message.setMessage(dropBoxIntegrationUtils.fetchFileContent(fileName));
 		
-		//	return new ResponseEntity<HttpMessage>(new HttpMessage("upload location does not exist"), HttpStatus.INTERNAL_SERVER_ERROR);
-		//	return new ResponseEntity<HttpMessage>(new HttpMessage("location does not have any files"), HttpStatus.OK);
-	//	return new ResponseEntity<HttpMessage>(new HttpMessage(files.stream().map(path -> path.getFileName()).collect(Collectors.toList()).toString()), HttpStatus.OK);
+		return new ResponseEntity<HttpMessage>(message, HttpStatus.OK);
+	}
+
+	@GetMapping(path="/filemove/from/{filename}/to/{newfilename}")
+	@Override
+	public ResponseEntity<HttpMessage> renameFile(String fileName, String newFileName) throws IOException {
+		return null;
+	}
+
+	@DeleteMapping(path="/filedelete/{filename}")
+	@Override
+	public ResponseEntity<HttpMessage> deleteFile(String fileName) throws IOException {
+		return null;
 	}
 
 }

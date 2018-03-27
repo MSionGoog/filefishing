@@ -31,7 +31,7 @@ import io.msiongoog.filefishing.security.Oauth2ResourceServer;
 
 @RestController
 @RequestMapping(path=Oauth2ResourceServer.BASICAUTHPROTECTED+"/files")
-public class FileUploadHandlerResource {
+public class FileUploadHandlerResource implements FileHandlerResource{
 	
 	private static final String FILESTORAGE_LOCATION = "/Users/shyam/apps/filestorage/";
 	Set<String> acceptedMimeTypes;
@@ -40,10 +40,7 @@ public class FileUploadHandlerResource {
 	
 	{
 		acceptedMimeTypes = new HashSet<String>() {
-
-			
 			private static final long serialVersionUID = -2895507796430153112L;
-
 			{
 				add("application/octet-stream");
 				add("application/x-sql");

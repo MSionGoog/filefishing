@@ -33,6 +33,7 @@ public class Oauth2ResourceServer extends ResourceServerConfigurerAdapter{
 		.antMatchers(HttpMethod.POST, "/protected/files/**").hasRole(SecurityConfig.UPLOADER)
 		.antMatchers(HttpMethod.GET, "/protected/user/**").hasRole(SecurityConfig.USER)
 		.antMatchers(HttpMethod.GET,"/protected/admin/**").hasRole(SecurityConfig.ADMIN)
+		.antMatchers(HttpMethod.GET,"/protected/dropbox/**").hasRole(SecurityConfig.ADMIN)
 		.and().httpBasic().realmName(SecurityConfig.BASIC_AUTH_REALM)
 		.authenticationEntryPoint(basicAuthenticationEntryPoint)
 		.and()
