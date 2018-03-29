@@ -16,7 +16,7 @@ username : sooraj
 password : password
 
 sample request:
-curl -u sooraj:password http://localhost:8080/protected/user
+curl -u sooraj:password http://${hostname}:${port}/protected/user
 
 
 (B)
@@ -24,7 +24,7 @@ username : arvind
 password : password
 
 sample request:
-curl -u arvind:password http://localhost:8080/protected/admin
+curl -u arvind:password http://${hostname}:${port}/protected/admin
 
 (C) is protected by oauth2 protocol
 
